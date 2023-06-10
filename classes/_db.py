@@ -50,6 +50,20 @@ class Database:
         self.lock.release()
         return True
 
+    def execute_diferente(self, statement, values):
+        if not self.connected:
+            return False
+        self.lock.acquire()
+        cur = self.__cursor()
+        if not cur:
+            self.lock.release()
+            return False
+        cur.execute(statement, values)
+        self.db.commit()
+        cur.close()
+        self.lock.release()
+        return True
+
 
 db = Database()
 
@@ -61,9 +75,18 @@ if __name__ == "__main__":
     #     key varchar(255),
     #     value longtext)
     # """)
+    # db.execute("""
+    #     create table unstranslated
+    #     (id integer primary key autoincrement,
+    #     key varchar(255),
+    #     value longtext)
+    # """)
 
     # db.execute("""
     #     delete from translation;
+    # """)
+    # db.execute("""
+    #     delete from unstranslated;
     # """)
 
     # db.execute("""drop table translation""")
