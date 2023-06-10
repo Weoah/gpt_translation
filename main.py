@@ -1,6 +1,6 @@
-from classes.translator_gpt import translator
-from classes.dba import dba
-from classes.serialize import serialize
+from src.translator_gpt import translator
+from src.dba import dba
+from src.serialize import serialize
 
 
 class Main:

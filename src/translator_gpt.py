@@ -1,7 +1,7 @@
 import openai
 
 from lib.config import API_KEY, SYSTEM_ROLE, USER_ROLE
-from classes.dba import dba
+from src.dba import dba
 
 
 class TranslatorGPT:
@@ -28,14 +28,14 @@ class TranslatorGPT:
             self._insert_translated_data()
             return translation
 
-    def _insert_translated_data(self) -> None:
-        dba.insert_translated_data(self.translated_data)
-        self.translated_data.clear()
-
     def translate_one_item(self, item: dict):
         print(item)
         if not dba.check_if_translated(item['Key']):
             print('oi')
+
+    def _insert_translated_data(self) -> None:
+        dba.insert_translated_data(self.translated_data)
+        self.translated_data.clear()
 
 
 translator = TranslatorGPT()
