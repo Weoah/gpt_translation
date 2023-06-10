@@ -1,9 +1,7 @@
 from classes.translator_bot import TranslatorGPT
-
-from lib.config import KEY_TEST, VALUE_TEST
+# from lib.config import KEY_TEST, VALUE_TEST
 
 translator = TranslatorGPT()
-translator.translate_item(KEY_TEST, VALUE_TEST)
 
 
 def load_json_data_base():
