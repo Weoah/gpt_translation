@@ -1,13 +1,13 @@
 import openai
 
 from lib.config import API_KEY, SYSTEM_ROLE, USER_ROLE
-from classes._db import db
+from classes.dba import dba
 
 
 class TranslatorGPT:
 
     def __init__(self) -> None:
-        self.translated_data: dict = {}
+        self.translated_data: list[dict] = []
         openai.api_key = API_KEY
 
     def translate_item(self, key, value, max_attemps=10, retry_delay=5):
@@ -24,23 +24,13 @@ class TranslatorGPT:
 
             translation = response.choices[0].message.content.strip()
 
-            self.translated_data[key] = translation
+            self.translated_data.append({'Key': key, 'Value': translation})
             self._insert_translated_data()
             return translation
 
-    def _insert_translated_data(self):
-        for key, value in self.translated_data.items():
-            db.execute(f"""
-                INSERT INTO translation
-                (key, value)
-                VALUES
-                ("{key}", "{value}")
-            """)
+    def _insert_translated_data(self) -> None:
+        dba.insert_translated_data(self.translated_data)
         self.translated_data.clear()
 
-    def _get_translated_data(self):
-        result = db.query("""
-            SELECT key, value
-            FROM translations
-        """)
-        return result
+
+translator = TranslatorGPT()

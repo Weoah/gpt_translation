@@ -22,43 +22,32 @@ class Database:
             return self.db.cursor()
         return False
 
-    def query(self, statement):
+    def __start(self):
         if not self.connected:
             return False
-        self.lock.acquire()
         cur = self.__cursor()
         if not cur:
-            self.lock.release()
             return False
+        return cur
+
+    def query(self, statement: str):
+        cur = self.__start()
+        self.lock.acquire()
         cur.execute(statement)
         result = cur.fetchall()
         cur.close()
         self.lock.release()
+        if not result:
+            return False
         return result
 
-    def execute(self, statement):
-        if not self.connected:
-            return False
+    def execute(self, statement: str, values: tuple | None = None):
+        cur = self.__start()
         self.lock.acquire()
-        cur = self.__cursor()
-        if not cur:
-            self.lock.release()
-            return False
-        cur.execute(statement)
-        self.db.commit()
-        cur.close()
-        self.lock.release()
-        return True
-
-    def execute_diferente(self, statement, values):
-        if not self.connected:
-            return False
-        self.lock.acquire()
-        cur = self.__cursor()
-        if not cur:
-            self.lock.release()
-            return False
-        cur.execute(statement, values)
+        if values is not None:
+            cur.execute(statement, values)
+        else:
+            cur.execute(statement)
         self.db.commit()
         cur.close()
         self.lock.release()

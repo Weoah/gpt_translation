@@ -1,7 +1,6 @@
 config.py
-translated_data.json
 enGB.json
-translated_data_temp.json
+temp.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
