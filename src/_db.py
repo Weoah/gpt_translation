@@ -8,6 +8,7 @@ class Database:
         self.connected: bool = False
         self.lock: Lock = Lock()
         self.__connect()
+        self.__first_time()
 
     def query(self, statement: str):
         cur = self.__start()
@@ -66,6 +67,10 @@ class Database:
             key varchar(255),
             value longtext)
         """)
+
+    def _drop_table(self): ...
+    # self.execute("""drop table translation""")
+    # self.execute("""drop table unstranslated""")
 
 
 db = Database()

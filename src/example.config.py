@@ -17,4 +17,6 @@ USER_ROLE = 'Por favor, traduza o seguinte texto, preservando campos ' \
     'Traduza apenas os campos especiais do tipo' \
     '{{mf|<masculino>|<feminino>}}, mas nao traduza os campos do tipo ' \
     '{{q|<campo1>|<campo2>}}. Se houver apenas uma palavra, não traduza. ' \
+    'Tente preservar a mesma quantidade de palavras sem deixar muito ' \
+    'diferente do texto original. ' \
     'Aqui está o texto:'

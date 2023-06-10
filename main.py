@@ -7,12 +7,16 @@ class Main:
 
     def __init__(self) -> None:
         self.untranslated_data: list[dict] = []
-        self._get_data()
+        try:
+            self._get_data()
+        except TypeError:
+            print('Inserindo todos os valores não traduzidos no banco.')
+            self._insert_untranslated_data()
+            self._get_data()
 
-    def run_translate(self):
+    def run_translate(self) -> None:
         for item in self.untranslated_data:
             translator.translate_one_item(item)
-            break
 
     def _get_data(self) -> None:
         untranslated_keys = dba.get_untranslated_keys()

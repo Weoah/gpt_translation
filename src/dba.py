@@ -3,14 +3,14 @@ from src._db import db
 
 class DatabaseAcess:
 
-    def insert_translated_data(self, translated_data: list[dict]) -> None:
-        for key, value in translated_data:
-            db.execute(f"""
+    def insert_translated_data(self, translated_data: dict) -> None:
+        for key, value in translated_data.items():
+            db.execute("""
                 INSERT INTO translation
                 (key, value)
                 VALUES
-                ("{key}", "{value}")
-            """)
+                (?, ?)
+            """, (key, value))
 
     def insert_untranslated_data(self, data_dict: dict) -> None:
         for key, value in data_dict.items():
@@ -41,7 +41,7 @@ class DatabaseAcess:
         result = db.query(f"""
             SELECT key
             FROM translation
-            WHERE key = "{key}"
+            WHERE value = "{key}"
         """)
         return result
 
