@@ -9,27 +9,6 @@ class Database:
         self.lock: Lock = Lock()
         self.__connect()
 
-    def __connect(self):
-        self.db = sqlite3.connect('db.sqlite3')
-        self.connected = True
-
-    def __close(self):
-        self.db.close()
-        self.connected = False
-
-    def __cursor(self):
-        if self.connected:
-            return self.db.cursor()
-        return False
-
-    def __start(self):
-        if not self.connected:
-            return False
-        cur = self.__cursor()
-        if not cur:
-            return False
-        return cur
-
     def query(self, statement: str):
         cur = self.__start()
         self.lock.acquire()
@@ -53,29 +32,40 @@ class Database:
         self.lock.release()
         return True
 
+    def __connect(self):
+        self.db = sqlite3.connect('db.sqlite3')
+        self.connected = True
+
+    def __close(self):
+        self.db.close()
+        self.connected = False
+
+    def __cursor(self):
+        if self.connected:
+            return self.db.cursor()
+        return False
+
+    def __start(self):
+        if not self.connected:
+            return False
+        cur = self.__cursor()
+        if not cur:
+            return False
+        return cur
+
+    def __first_time(self):
+        self.execute("""
+            CREATE TABLE IF NOT EXISTS translation
+            (id integer primary key autoincrement,
+            key varchar(255),
+            value longtext)
+        """)
+        self.execute("""
+            CREATE TABLE IF NOT EXISTS unstranslated
+            (id integer primary key autoincrement,
+            key varchar(255),
+            value longtext)
+        """)
+
 
 db = Database()
-
-if __name__ == "__main__":
-    ...
-    # db.execute("""
-    #     create table translation
-    #     (id integer primary key autoincrement,
-    #     key varchar(255),
-    #     value longtext)
-    # """)
-    # db.execute("""
-    #     create table unstranslated
-    #     (id integer primary key autoincrement,
-    #     key varchar(255),
-    #     value longtext)
-    # """)
-
-    # db.execute("""
-    #     delete from translation;
-    # """)
-    # db.execute("""
-    #     delete from unstranslated;
-    # """)
-
-    # db.execute("""drop table translation""")

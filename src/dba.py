@@ -1,4 +1,4 @@
-from classes._db import db
+from src._db import db
 
 
 class DatabaseAcess:

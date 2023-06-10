@@ -1,6 +1,6 @@
 import openai
 
-from lib.config import API_KEY, SYSTEM_ROLE, USER_ROLE
+from src.config import API_KEY, SYSTEM_ROLE, USER_ROLE
 from src.dba import dba
 
 
