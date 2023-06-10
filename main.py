@@ -1,33 +1,33 @@
-# from classes.translator_gpt import translator
+from classes.translator_gpt import translator
 from classes.dba import dba
 from classes.serialize import serialize
 
 
-def translate_one_item(dict_):
-    print(dict_)
-    if not dba.check_if_translated(dict_['Key']):
-        ...
+class Main:
+
+    def __init__(self) -> None:
+        self.untranslated_data: list[dict] = []
+        self._get_data()
+
+    def run_translate(self):
+        for item in self.untranslated_data:
+            translator.translate_one_item(item)
+            break
+
+    def _get_data(self) -> None:
+        untranslated_keys = dba.get_untranslated_keys()
+        untranslated_values = dba.get_untranslated_values()
+        for (key, keys), (value, values) \
+                in zip(untranslated_keys, untranslated_values):
+            self.untranslated_data.append({key: keys, value: values})
+
+    def _insert_untranslated_data(self):
+        data_list = serialize.load_untranslated_data()['strings']
+        for dict_item in data_list:
+            dba.insert_untranslated_data(dict_item)
 
 
 if __name__ == "__main__":
-    ...
-    # data_list = load_untranslated_data()['strings']
-    # print(len(data_list))
-    # for data_dict in data_list:
-    #     insert_unstranslated_data(data_dict)
+    main = Main()
 
-    result1 = dba.get_unstranslated_keys()
-    result2 = dba.get_unstranslated_values()
-
-    data: list[dict] = []
-    {data.append({key: value, key2: value2})  # type: ignore
-     for (key, value), (key2, value2) in zip(result1, result2)}
-
-    # print(len(data))
-
-    # data = mount_json_data(data)
-    serialize.save_translated_data(data)
-
-    for data_item in data:
-        translate_one_item(data_item)
-        break
+    main.run_translate()

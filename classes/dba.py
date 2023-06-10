@@ -12,7 +12,7 @@ class DatabaseAcess:
                 ("{key}", "{value}")
             """)
 
-    def insert_unstranslated_data(self, data_dict: dict) -> None:
+    def insert_untranslated_data(self, data_dict: dict) -> None:
         for key, value in data_dict.items():
             db.execute("""
                 INSERT INTO unstranslated
@@ -21,7 +21,7 @@ class DatabaseAcess:
                 (?, ?)
             """, (key, value))
 
-    def get_unstranslated_keys(self) -> tuple:
+    def get_untranslated_keys(self) -> tuple:
         result = db.query("""
             SELECT key, value
             FROM unstranslated
@@ -29,7 +29,7 @@ class DatabaseAcess:
         """)
         return result
 
-    def get_unstranslated_values(self) -> tuple:
+    def get_untranslated_values(self) -> tuple:
         result = db.query("""
             SELECT key, value
             FROM unstranslated

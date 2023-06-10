@@ -32,5 +32,10 @@ class TranslatorGPT:
         dba.insert_translated_data(self.translated_data)
         self.translated_data.clear()
 
+    def translate_one_item(self, item: dict):
+        print(item)
+        if not dba.check_if_translated(item['Key']):
+            print('oi')
+
 
 translator = TranslatorGPT()
