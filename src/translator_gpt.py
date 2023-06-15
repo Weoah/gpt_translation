@@ -27,13 +27,15 @@ class TranslatorGPT:
 
             self.translated_data.update({'Key': key, 'Value': translation})
             self._insert_translated_data()
+            print('\nTraduzindo a frase:', value)
+            print('\nResultado:', translation)
             return translation
 
     def translate_one_item(self, item: dict):
         if dba.check_if_translated(item['Key']):
             return None
         self.translate_item(item['Key'], item['Value'])
-        sleep(25)
+        sleep(21)
 
     def _insert_translated_data(self) -> None:
         dba.insert_translated_data(self.translated_data)

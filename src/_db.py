@@ -68,9 +68,11 @@ class Database:
             value longtext)
         """)
 
-    def _drop_table(self): ...
-    # self.execute("""drop table translation""")
-    # self.execute("""drop table unstranslated""")
+    def _drop_table(self):
+        self.execute("""drop table translation""")
+        # self.execute("""drop table unstranslated""")
 
 
 db = Database()
+
+# db._drop_table()

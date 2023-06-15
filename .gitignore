@@ -1,5 +1,6 @@
 config.py
 temp.json
+*.bkp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

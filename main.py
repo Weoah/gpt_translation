@@ -1,3 +1,5 @@
+from time import sleep
+
 from src.translator_gpt import translator
 from src.dba import dba
 from src.serialize import serialize
@@ -34,4 +36,9 @@ class Main:
 if __name__ == "__main__":
     main = Main()
 
-    main.run_translate()
+    while True:
+        try:
+            main.run_translate()
+        except Exception:
+            sleep(5)
+            main.run_translate()
